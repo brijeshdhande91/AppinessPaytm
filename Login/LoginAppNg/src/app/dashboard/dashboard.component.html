@@ -1,0 +1,88 @@
+<div class="dashboard container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Dashboard</span>
+      <span class="example-spacer"></span>
+      <span class="floatRight"><i class="material-icons" (click)="logOut();">open_in_new</i></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+      
+  <mat-tab-group (selectedTabChange)="updateFunction($event)">
+    <mat-tab label="Pay">
+        <mat-horizontal-stepper [linear]="true" #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+              <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Payee's mobile number</ng-template>
+                <mat-form-field>
+                    <span matPrefix>+91 &nbsp;</span>
+                    <input type="tel" matInput placeholder="Mobile Number" formControlName="mobile" required>
+                </mat-form-field>
+                <div>
+                  <button mat-button matStepperNext (click)="setNumber(firstFormGroup)">Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+              <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>{{payeeNumber}}</ng-template>
+                <mat-form-field>
+                    <input type="number" matInput placeholder="Amount" formControlName="amount" required>
+                </mat-form-field>
+                <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext (click)="setMoney(secondFormGroup)">Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>{{payeeMoney}}</ng-template>
+              Confirm:
+              <mat-list role="list">
+                  <mat-list-item role="listitem">Payee's Mobile number: {{payeeNumber}}</mat-list-item>
+                  <mat-list-item role="listitem">Amount: {{payeeMoney}}</mat-list-item>
+              </mat-list>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="sendMoney();">Send</button>
+              </div>
+              <mat-error *ngIf="errorMessage">
+                  <strong>{{errorMessage}}</strong>
+              </mat-error>
+              <h3 *ngIf="successMessage" class="success">{{successMessage}}</h3>
+            </mat-step>
+          </mat-horizontal-stepper>
+    </mat-tab>
+    <mat-tab label="Transactions"> 
+      <table>
+          <tr>
+            <th>Sender</th>
+            <th >Wallet Balance</th>
+            <th >Transaction</th>
+            <th >Paid to</th>
+          </tr>
+        
+          <tr *ngFor="let trans of myTransactionDetails">
+            <td>{{trans.sender}}</td>
+            <td>{{trans.wallet}}</td>
+            <td>{{trans.transaction}}</td>
+            <td>{{trans.paidTo}}</td>
+          </tr>
+        </table>
+    </mat-tab>
+    <mat-tab label="Add Money"> 
+        <div class="cardContainer">
+            <form class="example-form" (ngSubmit)="addMoney()" [formGroup]="wallet">
+              <h3>Wallet: Rs. {{walletBalance}}</h3>
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput placeholder="Amount" formControlName="amount">
+              </mat-form-field>
+              <button mat-raised-button color="accent" type="submit">Add to wallet</button>
+              <mat-error *ngIf="errorMessage">
+                <strong>{{errorMessage}}</strong>
+              </mat-error>
+              <h3 *ngIf="successMessage" class="success">{{successMessage}}</h3>
+            </form>
+          </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

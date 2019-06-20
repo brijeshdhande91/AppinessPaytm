@@ -1,0 +1,30 @@
+<div class="dashboard container">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>Admin Dashboard</span>
+        <span class="example-spacer"></span>
+        <span class="floatRight"><i class="material-icons" (click)="logOut();">open_in_new</i></span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+        
+    <mat-tab-group (selectedTabChange)="updateFunction($event)">
+      <mat-tab label="Transactions"> 
+        <table>
+            <tr>
+              <th>Sender</th>
+              <th >Wallet Balance</th>
+              <th >Transaction</th>
+              <th >Paid to</th>
+            </tr>
+          
+            <tr *ngFor="let trans of myTransactionDetails">
+              <td>{{trans.sender}}</td>
+              <td>{{trans.wallet}}</td>
+              <td>{{trans.transaction}}</td>
+              <td>{{trans.paidTo}}</td>
+            </tr>
+          </table>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  

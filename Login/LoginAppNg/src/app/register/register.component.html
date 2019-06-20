@@ -1,0 +1,21 @@
+<div class="cardContainer">
+  <form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <h3>Register</h3>
+    <mat-form-field class="example-full-width">
+      <span matPrefix>+91 &nbsp;</span>
+      <input type="tel" matInput placeholder="Mobile Number" formControlName="mobile">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input type="password" matInput placeholder="Password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input type="email" matInput placeholder="Email ID" formControlName="email">
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">Register</button>
+    <a href="#/Login" class="paddingLeft20px">Already a member?</a>
+    <mat-error *ngIf="errorMessage">
+      <strong>{{errorMessage}}</strong>
+    </mat-error>
+    <h3 *ngIf="successMessage" class="success">{{successMessage}}</h3>
+  </form>
+</div>
