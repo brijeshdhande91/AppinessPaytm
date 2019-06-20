@@ -21,6 +21,10 @@
                   <button mat-button matStepperNext (click)="setNumber(firstFormGroup)">Next</button>
                 </div>
               </form>
+              <mat-error *ngIf="errorMessage">
+                <strong>{{errorMessage}}</strong>
+              </mat-error>
+              <h3 *ngIf="successMessage" class="success">{{successMessage}}</h3>
             </mat-step>
             <mat-step [stepControl]="secondFormGroup">
               <form [formGroup]="secondFormGroup">

@@ -121,20 +121,20 @@ router.post('/sendMoneyToWallet', function(req, res, next) {
 				console.log(err);
 			}
 			else{
-				if(response){
-					response.push(request);
+				if(!response){
+					res.status(406).send({msg: 'something went wrong.'});
+				}else if(response == 'funds'){
+					res.status(406).send({msg: 'insufficient funds.'});
+				}else if(response == 'payeeNotFound'){
+					res.status(406).send({msg: 'user is not registered with us.'});
+				}else if(response.length){
+					if(response.length) response.push(request);
 					db.sendMoney(response, function(err, response){
 						if(err) res.status(406).send({msg: 'something went wrong.'});
 						if(response == 'inserted'){
 							res.status(200).send({msg: 'Money added to wallet'});
 						}
 					});
-				}else if(!response){
-					res.status(406).send({msg: 'something went wrong.'});
-				}else if(response == 'funds'){
-					res.status(406).send({msg: 'insufficient funds.'});
-				}else if(response == 'payeeNotFound'){
-					res.status(406).send({msg: 'user is not registered with us.'});
 				}else{
 					res.status(406).send({msg: 'something went wrong.'});
 				}

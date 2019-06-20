@@ -4,16 +4,16 @@ var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 
 MongoClient.connect(url, {useNewUrlParser: true}, function(err, db) {
-  if (err) throw err;
+  if (err) console.log(err);
   console.log("Database created!");
   var dbo = db.db("Paytm");
   dbo.createCollection("Users", function(err, res) {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log("Users Collection created!");
     
   });
   dbo.createCollection("Transactions", function(err, res) {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log("Transactions Collection created!");
     db.close();
   });
@@ -151,7 +151,7 @@ exports.sendMoney = function sendMoney(request, callback) {
     var myquery1 = { _id:  finalRequest[2].user};
     var newvalues1 = {$set: {wallet: userWallet} };
     dbo.collection("Users").updateOne(myquery1, newvalues1, function(err, res) {
-      if (err) throw err;
+      if (err) console.log(err);
       console.log("1 document updated");
       db.close();
     });
@@ -159,7 +159,7 @@ exports.sendMoney = function sendMoney(request, callback) {
     var myquery2 = { _id:  finalRequest[2].mobile};
     var newvalues2 = {$set: {wallet: payeeWallet} };
     dbo.collection("Users").updateOne(myquery2, newvalues2, function(err, res) {
-      if (err) throw err;
+      if (err) console.log(err);
       console.log("1 document updated");
       db.close();
     });
@@ -196,7 +196,7 @@ exports.addMoneyToWallet = function addMoneyToWallet(request, callback) {
     dbo.collection("Users").updateOne(myquery, newvalues1, function(err, res) {
       console.log(err);
       console.log(res);
-      if (err) throw err;
+      if (err) console.log(err);
       console.log("1 document updated");
       db.close();
       callback("",updatedWallet);
